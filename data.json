@@ -3,7 +3,7 @@
   "plugin.load-before": "",
   "plugin.version": "1.0",
   "debug-build-mode": false,
-  "open-tab": 3,
+  "open-tab": 0,
   "plugin-components": [
     {
       "=": "comp-command",
@@ -34,8 +34,40 @@
                 "parameters": [{"=": "expr-command-sender"}]
               },
               {
-                "=": "expr-string",
-                "parameters": [" diamond_axe{display:{Name:'{\"text\":\"Ban Hammer\",\"color\":\"dark_red\",\"bold\":true}',Lore:['{\"text\":\"HammerType: Ban\"}']},CustomModelData:1000} 1"]
+                "size": 1,
+                "=": "expr-combine-strings",
+                "parameters": [
+                  {
+                    "=": "expr-string",
+                    "parameters": [""]
+                  },
+                  {
+                    "=": "expr-config-value",
+                    "parameters": [
+                      {
+                        "=": "expr-config-from-file",
+                        "parameters": [{
+                          "=": "expr-file-in-directory",
+                          "parameters": [
+                            {"=": "expr-plugin-directory"},
+                            {
+                              "=": "expr-string",
+                              "parameters": ["config.yml"]
+                            }
+                          ]
+                        }]
+                      },
+                      {
+                        "=": "expr-string",
+                        "parameters": ["ItemName"]
+                      }
+                    ]
+                  },
+                  {
+                    "=": "expr-string",
+                    "parameters": ["{display:{Name:'{\"text\":\"Ban Hammer\",\"color\":\"dark_red\",\"bold\":true}',Lore:['{\"text\":\"HammerType: Ban\"}']},CustomModelData:1000} 1"]
+                  }
+                ]
               }
             ]
           }
@@ -46,7 +78,7 @@
         "banhammer",
         "",
         "Gives you the ban hammer.",
-        "hammer.ban",
+        "adminhammers.ban",
         "Error",
         ""
       ]
@@ -91,7 +123,7 @@
                     }]
                   },
                   {
-                    "=": "expr-raw-string",
+                    "=": "expr-string",
                     "parameters": ["reload"]
                   }
                 ]
@@ -100,35 +132,13 @@
             ]
           },
           {
-            "=": "stat-if-statement",
-            "parameters": [
-              {
-                "=": "expr-is-equal",
-                "parameters": [
-                  {
-                    "=": "expr-command-argument",
-                    "parameters": [{
-                      "=": "expr-number",
-                      "parameters": ["0"]
-                    }]
-                  },
-                  {
-                    "=": "expr-raw-string",
-                    "parameters": ["wiki"]
-                  }
-                ]
-              },
-              "normal"
-            ]
-          },
-          {
             "children": [{
-              "=": "org.bukkit.Bukkit#dispatchCommand(org.bukkit.command.CommandSender,java.lang.String)",
+              "=": "org.bukkit.command.CommandSender#sendMessage(java.lang.String)",
               "parameters": [
                 {"=": "expr-command-sender"},
                 {
                   "=": "expr-string",
-                  "parameters": ["/banhammer"]
+                  "parameters": ["[§4§lAdmin§8Hammers] Coming Soon!"]
                 }
               ]
             }],
@@ -145,7 +155,39 @@
                     }]
                   },
                   {
-                    "=": "expr-raw-string",
+                    "=": "expr-string",
+                    "parameters": ["wiki"]
+                  }
+                ]
+              },
+              "normal"
+            ]
+          },
+          {
+            "children": [{
+              "=": "org.bukkit.Bukkit#dispatchCommand(org.bukkit.command.CommandSender,java.lang.String)",
+              "parameters": [
+                {"=": "expr-command-sender"},
+                {
+                  "=": "expr-string",
+                  "parameters": ["banhammer"]
+                }
+              ]
+            }],
+            "=": "stat-if-statement",
+            "parameters": [
+              {
+                "=": "expr-is-equal",
+                "parameters": [
+                  {
+                    "=": "expr-command-argument",
+                    "parameters": [{
+                      "=": "expr-number",
+                      "parameters": ["0"]
+                    }]
+                  },
+                  {
+                    "=": "expr-string",
                     "parameters": ["ban"]
                   }
                 ]
@@ -157,7 +199,321 @@
             "children": [{
               "=": "org.bukkit.command.CommandSender#sendMessage(java.lang.String...)",
               "parameters": [
-                null,
+                {"=": "expr-command-sender"},
+                {
+                  "=": "expr-raw-string",
+                  "parameters": ["Usage: /adminham reload, wiki, ban, kick, help"]
+                }
+              ]
+            }],
+            "=": "stat-if-statement",
+            "parameters": [
+              {
+                "size": 3,
+                "=": "expr-boolean-logic",
+                "parameters": [
+                  {
+                    "=": "expr-is-equal",
+                    "parameters": [
+                      {
+                        "=": "expr-command-argument",
+                        "parameters": [{
+                          "=": "expr-number",
+                          "parameters": ["0"]
+                        }]
+                      },
+                      null
+                    ]
+                  },
+                  "XOR",
+                  {
+                    "=": "expr-is-equal",
+                    "parameters": [
+                      {
+                        "=": "expr-command-argument",
+                        "parameters": [{
+                          "=": "expr-number",
+                          "parameters": ["0"]
+                        }]
+                      },
+                      {
+                        "=": "expr-string",
+                        "parameters": ["wiki"]
+                      }
+                    ]
+                  },
+                  "XOR",
+                  {
+                    "=": "expr-is-equal",
+                    "parameters": [
+                      {
+                        "=": "expr-command-argument",
+                        "parameters": [{
+                          "=": "expr-number",
+                          "parameters": ["0"]
+                        }]
+                      },
+                      null
+                    ]
+                  },
+                  "XOR",
+                  {
+                    "=": "expr-is-equal",
+                    "parameters": [
+                      {
+                        "=": "expr-command-argument",
+                        "parameters": [{
+                          "=": "expr-number",
+                          "parameters": ["0"]
+                        }]
+                      },
+                      {
+                        "=": "expr-string",
+                        "parameters": ["kick"]
+                      }
+                    ]
+                  },
+                  "XOR",
+                  {
+                    "=": "expr-is-equal",
+                    "parameters": [
+                      {
+                        "=": "expr-command-argument",
+                        "parameters": [{
+                          "=": "expr-number",
+                          "parameters": ["0"]
+                        }]
+                      },
+                      {
+                        "=": "expr-string",
+                        "parameters": ["help"]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "negate condition"
+            ]
+          }
+        ],
+        "=": "stat-if-statement",
+        "parameters": [
+          {
+            "=": "expr-is-null",
+            "parameters": [{
+              "=": "expr-command-argument",
+              "parameters": [{
+                "=": "expr-number",
+                "parameters": ["0"]
+              }]
+            }]
+          },
+          "negate condition"
+        ]
+      }],
+      "=": "comp-command",
+      "parameters": [
+        "adminham",
+        "adminhammer",
+        "Main AdminHammers command.",
+        "",
+        "",
+        "/adminham reload, wiki, ban, kick, help"
+      ]
+    },
+    {
+      "children": [{
+        "children": [{
+          "=": "org.bukkit.event.server.TabCompleteEvent#setCompletions(java.util.List<java.lang.String>)",
+          "parameters": [{
+            "size": 5,
+            "=": "expr-new-list",
+            "parameters": [
+              {
+                "=": "expr-string",
+                "parameters": ["reload"]
+              },
+              {
+                "=": "expr-string",
+                "parameters": ["wiki"]
+              },
+              {
+                "=": "expr-string",
+                "parameters": ["ban"]
+              },
+              {
+                "=": "expr-string",
+                "parameters": ["kick"]
+              },
+              {
+                "=": "expr-string",
+                "parameters": ["help"]
+              }
+            ]
+          }]
+        }],
+        "=": "stat-if-statement",
+        "parameters": [
+          {
+            "=": "expr-is-equal",
+            "parameters": [
+              {"=": "org.bukkit.event.server.TabCompleteEvent#getBuffer()"},
+              {
+                "=": "expr-string",
+                "parameters": ["/adminhammer"]
+              }
+            ]
+          },
+          "normal"
+        ]
+      }],
+      "=": "org.bukkit.event.server.TabCompleteEvent",
+      "parameters": ["NORMAL"]
+    },
+    {
+      "children": [{
+        "children": [{
+          "=": "org.bukkit.BanList#addBan(java.lang.String,java.lang.String,java.util.Date,java.lang.String)",
+          "parameters": [
+            null,
+            {"=": "org.bukkit.event.entity.EntityDamageByEntityEvent#getDamager()"},
+            null,
+            null,
+            null
+          ]
+        }],
+        "=": "stat-if-statement",
+        "parameters": [
+          {
+            "=": "expr-is-equal",
+            "parameters": [
+              {"=": "org.bukkit.event.entity.EntityDamageByEntityEvent#getDamager()"},
+              null
+            ]
+          },
+          "normal"
+        ]
+      }],
+      "=": "org.bukkit.event.entity.EntityDamageByEntityEvent",
+      "parameters": ["NORMAL"]
+    },
+    {
+      "children": [{
+        "children": [
+          {
+            "children": [
+              {
+                "=": "org.bukkit.command.CommandSender#sendMessage(java.lang.String)",
+                "parameters": [
+                  {"=": "expr-command-sender"},
+                  {
+                    "=": "expr-string",
+                    "parameters": ["[§4§lAdmin§8Hammers] Reloading config!"]
+                  }
+                ]
+              },
+              {"=": "stat-reload-plugin-config"},
+              {
+                "=": "org.bukkit.command.CommandSender#sendMessage(java.lang.String)",
+                "parameters": [
+                  {"=": "expr-command-sender"},
+                  {
+                    "=": "expr-string",
+                    "parameters": ["[§4§lAdmin§8Hammers] Config reloaded!"]
+                  }
+                ]
+              }
+            ],
+            "=": "stat-if-statement",
+            "parameters": [
+              {
+                "=": "expr-is-equal",
+                "parameters": [
+                  {
+                    "=": "expr-command-argument",
+                    "parameters": [{
+                      "=": "expr-number",
+                      "parameters": ["0"]
+                    }]
+                  },
+                  {
+                    "=": "expr-string",
+                    "parameters": ["reload"]
+                  }
+                ]
+              },
+              "normal"
+            ]
+          },
+          {
+            "children": [{
+              "=": "org.bukkit.command.CommandSender#sendMessage(java.lang.String)",
+              "parameters": [
+                {"=": "expr-command-sender"},
+                {
+                  "=": "expr-string",
+                  "parameters": ["[§4§lAdmin§8Hammers] Coming Soon!"]
+                }
+              ]
+            }],
+            "=": "stat-if-statement",
+            "parameters": [
+              {
+                "=": "expr-is-equal",
+                "parameters": [
+                  {
+                    "=": "expr-command-argument",
+                    "parameters": [{
+                      "=": "expr-number",
+                      "parameters": ["0"]
+                    }]
+                  },
+                  {
+                    "=": "expr-string",
+                    "parameters": ["wiki"]
+                  }
+                ]
+              },
+              "normal"
+            ]
+          },
+          {
+            "children": [{
+              "=": "org.bukkit.Bukkit#dispatchCommand(org.bukkit.command.CommandSender,java.lang.String)",
+              "parameters": [
+                {"=": "expr-command-sender"},
+                {
+                  "=": "expr-string",
+                  "parameters": ["banhammer"]
+                }
+              ]
+            }],
+            "=": "stat-if-statement",
+            "parameters": [
+              {
+                "=": "expr-is-equal",
+                "parameters": [
+                  {
+                    "=": "expr-command-argument",
+                    "parameters": [{
+                      "=": "expr-number",
+                      "parameters": ["0"]
+                    }]
+                  },
+                  {
+                    "=": "expr-string",
+                    "parameters": ["ban"]
+                  }
+                ]
+              },
+              "normal"
+            ]
+          },
+          {
+            "children": [{
+              "=": "org.bukkit.command.CommandSender#sendMessage(java.lang.String...)",
+              "parameters": [
+                {"=": "expr-command-sender"},
                 {
                   "=": "expr-raw-string",
                   "parameters": ["Usage: /adminham reload, wiki, ban, kick, help"]
@@ -277,328 +633,6 @@
       }],
       "=": "comp-command",
       "parameters": [
-        "adminham",
-        "adminhammer",
-        "Main AdminHammers command.",
-        "",
-        "",
-        "/adminham reload, wiki, ban, kick, help"
-      ]
-    },
-    {
-      "children": [{
-        "children": [{
-          "=": "org.bukkit.event.server.TabCompleteEvent#setCompletions(java.util.List<java.lang.String>)",
-          "parameters": [{
-            "size": 5,
-            "=": "expr-new-list",
-            "parameters": [
-              {
-                "=": "expr-raw-string",
-                "parameters": ["reload"]
-              },
-              {
-                "=": "expr-raw-string",
-                "parameters": ["wiki"]
-              },
-              {
-                "=": "expr-raw-string",
-                "parameters": ["ban"]
-              },
-              {
-                "=": "expr-raw-string",
-                "parameters": ["kick"]
-              },
-              {
-                "=": "expr-raw-string",
-                "parameters": ["help"]
-              }
-            ]
-          }]
-        }],
-        "=": "stat-if-statement",
-        "parameters": [
-          {
-            "=": "expr-is-equal",
-            "parameters": [
-              {"=": "org.bukkit.event.server.TabCompleteEvent#getBuffer()"},
-              {
-                "=": "expr-raw-string",
-                "parameters": ["/adminham "]
-              }
-            ]
-          },
-          "normal"
-        ]
-      }],
-      "=": "org.bukkit.event.server.TabCompleteEvent",
-      "parameters": ["NORMAL"]
-    },
-    {
-      "children": [{
-        "children": [{
-          "=": "org.bukkit.BanList#addBan(java.lang.String,java.lang.String,java.util.Date,java.lang.String)",
-          "parameters": [
-            null,
-            {"=": "org.bukkit.event.entity.EntityDamageByEntityEvent#getDamager()"},
-            null,
-            null,
-            null
-          ]
-        }],
-        "=": "stat-if-statement",
-        "parameters": [
-          {
-            "=": "expr-is-equal",
-            "parameters": [
-              {"=": "org.bukkit.event.entity.EntityDamageByEntityEvent#getDamager()"},
-              null
-            ]
-          },
-          "normal"
-        ]
-      }],
-      "=": "org.bukkit.event.entity.EntityDamageByEntityEvent",
-      "parameters": ["NORMAL"]
-    },
-    {
-      "=": "comp-command",
-      "parameters": [
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
-      ]
-    },
-    {
-      "children": [{
-        "children": [
-          {
-            "children": [{"=": "stat-reload-plugin-config"}],
-            "=": "stat-if-statement",
-            "parameters": [
-              {
-                "=": "expr-is-equal",
-                "parameters": [
-                  {
-                    "=": "expr-command-argument",
-                    "parameters": [{
-                      "=": "expr-number",
-                      "parameters": ["0"]
-                    }]
-                  },
-                  {
-                    "=": "expr-string",
-                    "parameters": ["reload"]
-                  }
-                ]
-              },
-              "normal"
-            ]
-          },
-          {
-            "children": [{
-              "=": "org.bukkit.entity.Player#sendTitle(java.lang.String,java.lang.String)",
-              "parameters": [
-                {"=": "expr-command-sender"},
-                {
-                  "=": "expr-combine-strings",
-                  "parameters": [
-                    {
-                      "=": "expr-hex-color",
-                      "parameters": [{
-                        "=": "expr-string",
-                        "parameters": ["E52800"]
-                      }]
-                    },
-                    {
-                      "=": "expr-string",
-                      "parameters": ["Coming Soon!"]
-                    }
-                  ]
-                },
-                {
-                  "=": "expr-string",
-                  "parameters": ["Title appears!"]
-                }
-              ]
-            }],
-            "=": "stat-if-statement",
-            "parameters": [
-              {
-                "=": "expr-is-equal",
-                "parameters": [
-                  {
-                    "=": "expr-command-argument",
-                    "parameters": [{
-                      "=": "expr-number",
-                      "parameters": ["0"]
-                    }]
-                  },
-                  {
-                    "=": "expr-string",
-                    "parameters": ["wiki"]
-                  }
-                ]
-              },
-              "normal"
-            ]
-          },
-          {
-            "children": [{
-              "=": "org.bukkit.Bukkit#dispatchCommand(org.bukkit.command.CommandSender,java.lang.String)",
-              "parameters": [
-                {"=": "expr-command-sender"},
-                {
-                  "=": "expr-string",
-                  "parameters": ["banhammer"]
-                }
-              ]
-            }],
-            "=": "stat-if-statement",
-            "parameters": [
-              {
-                "=": "expr-is-equal",
-                "parameters": [
-                  {
-                    "=": "expr-command-argument",
-                    "parameters": [{
-                      "=": "expr-number",
-                      "parameters": ["0"]
-                    }]
-                  },
-                  {
-                    "=": "expr-string",
-                    "parameters": ["ban"]
-                  }
-                ]
-              },
-              "normal"
-            ]
-          },
-          {
-            "=": "stat-if-statement",
-            "parameters": [
-              {
-                "size": 3,
-                "=": "expr-boolean-logic",
-                "parameters": [
-                  {
-                    "=": "expr-is-equal",
-                    "parameters": [
-                      {
-                        "=": "expr-command-argument",
-                        "parameters": [{
-                          "=": "expr-number",
-                          "parameters": ["0"]
-                        }]
-                      },
-                      {
-                        "=": "expr-raw-string",
-                        "parameters": ["reload"]
-                      }
-                    ]
-                  },
-                  "XOR",
-                  {
-                    "=": "expr-is-equal",
-                    "parameters": [
-                      {
-                        "=": "expr-command-argument",
-                        "parameters": [{
-                          "=": "expr-number",
-                          "parameters": ["0"]
-                        }]
-                      },
-                      {
-                        "=": "expr-raw-string",
-                        "parameters": ["wiki"]
-                      }
-                    ]
-                  },
-                  "XOR",
-                  {
-                    "=": "expr-is-equal",
-                    "parameters": [
-                      {
-                        "=": "expr-command-argument",
-                        "parameters": [{
-                          "=": "expr-number",
-                          "parameters": ["0"]
-                        }]
-                      },
-                      {
-                        "=": "expr-raw-string",
-                        "parameters": ["ban"]
-                      }
-                    ]
-                  },
-                  "XOR",
-                  {
-                    "=": "expr-is-equal",
-                    "parameters": [
-                      {
-                        "=": "expr-command-argument",
-                        "parameters": [{
-                          "=": "expr-number",
-                          "parameters": ["0"]
-                        }]
-                      },
-                      {
-                        "=": "expr-raw-string",
-                        "parameters": ["kick"]
-                      }
-                    ]
-                  },
-                  "XOR",
-                  {
-                    "=": "expr-is-equal",
-                    "parameters": [
-                      {
-                        "=": "expr-command-argument",
-                        "parameters": [{
-                          "=": "expr-number",
-                          "parameters": ["0"]
-                        }]
-                      },
-                      {
-                        "=": "expr-raw-string",
-                        "parameters": ["help"]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "negate condition"
-            ]
-          },
-          {
-            "=": "org.bukkit.Bukkit#broadcastMessage(java.lang.String)",
-            "parameters": [{
-              "=": "expr-string",
-              "parameters": ["Usage: /adminham reload, wiki, ban, kick, help"]
-            }]
-          }
-        ],
-        "=": "stat-if-statement",
-        "parameters": [
-          {
-            "=": "expr-is-null",
-            "parameters": [{
-              "=": "expr-command-argument",
-              "parameters": [{
-                "=": "expr-number",
-                "parameters": ["0"]
-              }]
-            }]
-          },
-          "negate condition"
-        ]
-      }],
-      "=": "comp-command",
-      "parameters": [
         "adminhammer",
         "adminham",
         "Main AdminHammers command.",
@@ -657,55 +691,58 @@
             "parameters": [
               {"=": "org.bukkit.event.player.PlayerInteractEvent#getItem()"},
               {
-                "=": "expr-new-named-item-with-lore",
-                "parameters": [
-                  {
-                    "=": "org.bukkit.Material#valueOf(java.lang.String)",
-                    "parameters": [{
-                      "=": "expr-config-value",
-                      "parameters": [
-                        {
-                          "=": "expr-config-from-file",
-                          "parameters": [{
-                            "=": "expr-file-in-directory",
-                            "parameters": [
-                              {"=": "expr-plugin-directory"},
-                              {
-                                "=": "expr-string",
-                                "parameters": ["config.yml"]
-                              }
-                            ]
-                          }]
-                        },
-                        {
-                          "=": "expr-string",
-                          "parameters": ["ItemName"]
-                        }
-                      ]
-                    }]
-                  },
-                  {
-                    "=": "expr-string",
-                    "parameters": ["§4§lBan Hammer"]
-                  },
-                  {
-                    "size": 1,
-                    "=": "expr-new-list",
-                    "parameters": [{
-                      "=": "expr-combine-strings",
-                      "parameters": [
-                        {
-                          "=": "expr-string",
-                          "parameters": ["HammerType: "]
-                        },
-                        {
-                          "=": "expr-string",
-                          "parameters": ["Ban"]
-                        }
-                      ]
-                    }]
-                  }
-                ]
+                "=": "org.bukkit.inventory.meta.ItemMeta#hasCustomModelData()",
+                "parameters": [{
+                  "=": "expr-new-named-item-with-lore",
+                  "parameters": [
+                    {
+                      "=": "org.bukkit.Material#valueOf(java.lang.String)",
+                      "parameters": [{
+                        "=": "expr-config-value",
+                        "parameters": [
+                          {
+                            "=": "expr-config-from-file",
+                            "parameters": [{
+                              "=": "expr-file-in-directory",
+                              "parameters": [
+                                {"=": "expr-plugin-directory"},
+                                {
+                                  "=": "expr-string",
+                                  "parameters": ["config.yml"]
+                                }
+                              ]
+                            }]
+                          },
+                          {
+                            "=": "expr-string",
+                            "parameters": ["ItemName"]
+                          }
+                        ]
+                      }]
+                    },
+                    {
+                      "=": "expr-string",
+                      "parameters": ["§4§lBan Hammer"]
+                    },
+                    {
+                      "size": 1,
+                      "=": "expr-new-list",
+                      "parameters": [{
+                        "=": "expr-combine-strings",
+                        "parameters": [
+                          {
+                            "=": "expr-string",
+                            "parameters": ["HammerType: "]
+                          },
+                          {
+                            "=": "expr-string",
+                            "parameters": ["Ban"]
+                          }
+                        ]
+                      }]
+                    }
+                  ]
+                }]
               }
             ]
           },
@@ -763,21 +800,69 @@
       }],
       "=": "org.bukkit.event.server.PluginEnableEvent",
       "parameters": ["NORMAL"]
+    },
+    {
+      "children": [{
+        "children": [{
+          "=": "org.bukkit.event.server.TabCompleteEvent#setCompletions(java.util.List<java.lang.String>)",
+          "parameters": [{
+            "size": 5,
+            "=": "expr-new-list",
+            "parameters": [
+              {
+                "=": "expr-string",
+                "parameters": ["reload"]
+              },
+              {
+                "=": "expr-string",
+                "parameters": ["wiki"]
+              },
+              {
+                "=": "expr-string",
+                "parameters": ["ban"]
+              },
+              {
+                "=": "expr-string",
+                "parameters": ["kick"]
+              },
+              {
+                "=": "expr-string",
+                "parameters": ["help"]
+              }
+            ]
+          }]
+        }],
+        "=": "stat-if-statement",
+        "parameters": [
+          {
+            "=": "expr-is-equal",
+            "parameters": [
+              {"=": "org.bukkit.event.server.TabCompleteEvent#getBuffer()"},
+              {
+                "=": "expr-string",
+                "parameters": ["/adminham"]
+              }
+            ]
+          },
+          "normal"
+        ]
+      }],
+      "=": "org.bukkit.event.server.TabCompleteEvent",
+      "parameters": ["NORMAL"]
     }
   ],
   "plugin.soft-dependencies": "",
   "plugin.name": "AdminHammers",
   "plugin.prefix": "",
-  "current-plugin-component": 3,
+  "current-plugin-component": 0,
   "plugin.author": "Aosiho",
   "plugin.description": "Adds useful hammers for admins",
   "plugin.permissions": "\n",
   "open-plugin-components": [
-    7,
+    9,
     3,
-    1,
-    2,
-    6
+    6,
+    1
   ],
   "plugin.website": ""
 }
