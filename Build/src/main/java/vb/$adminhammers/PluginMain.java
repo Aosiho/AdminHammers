@@ -39,13 +39,13 @@ public class PluginMain extends JavaPlugin implements Listener {
 				if (!((commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null) == null)) {
 					if (PluginMain.checkEquals((commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null),
 							"reload")) {
+						commandSender.sendMessage("[\u00A74\u00A7lAdmin\u00A78Hammers] Reloading config!");
 						PluginMain.getInstance().reloadConfig();
+						commandSender.sendMessage("[\u00A74\u00A7lAdmin\u00A78Hammers] Config reloaded!");
 					}
 					if (PluginMain.checkEquals((commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null),
 							"wiki")) {
-						((org.bukkit.entity.Player) (Object) commandSender).sendTitle(
-								(net.md_5.bungee.api.ChatColor.of("E52800").toString() + "Coming Soon!"),
-								"Title appears!");
+						commandSender.sendMessage("[\u00A74\u00A7lAdmin\u00A78Hammers] Coming Soon!");
 					}
 					if (PluginMain.checkEquals((commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null),
 							"ban")) {
@@ -61,16 +61,10 @@ public class PluginMain extends JavaPlugin implements Listener {
 									(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null), "kick"))
 							^ PluginMain.checkEquals(
 									(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null), "help"))) {
+						commandSender.sendMessage(
+								((java.lang.String[]) (Object) "Usage: /adminham reload, wiki, ban, kick, help"));
 					}
-					org.bukkit.Bukkit.broadcastMessage("Usage: /adminham reload, wiki, ban, kick, help");
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return true;
-		}
-		if (command.getName().equalsIgnoreCase("")) {
-			try {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -87,22 +81,25 @@ public class PluginMain extends JavaPlugin implements Listener {
 					}
 					if (PluginMain.checkEquals((commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null),
 							"wiki")) {
+						commandSender.sendMessage("[\u00A74\u00A7lAdmin\u00A78Hammers] Coming Soon!");
 					}
 					if (PluginMain.checkEquals((commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null),
 							"ban")) {
-						org.bukkit.Bukkit.dispatchCommand(commandSender, "/banhammer");
+						org.bukkit.Bukkit.dispatchCommand(commandSender, "banhammer");
 					}
 					if (!((((PluginMain.checkEquals(
-							(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null), "reload")
+							(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null),
+							((java.lang.Object) null))
 							^ PluginMain.checkEquals(
 									(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null), "wiki"))
 							^ PluginMain.checkEquals(
-									(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null), "ban"))
+									(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null),
+									((java.lang.Object) null)))
 							^ PluginMain.checkEquals(
 									(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null), "kick"))
 							^ PluginMain.checkEquals(
 									(commandArgs.length > ((int) (0d)) ? commandArgs[((int) (0d))] : null), "help"))) {
-						((org.bukkit.command.CommandSender) null).sendMessage(
+						commandSender.sendMessage(
 								((java.lang.String[]) (Object) "Usage: /adminham reload, wiki, ban, kick, help"));
 					}
 				}
@@ -113,9 +110,13 @@ public class PluginMain extends JavaPlugin implements Listener {
 		}
 		if (command.getName().equalsIgnoreCase("banhammer")) {
 			try {
-				org.bukkit.Bukkit.dispatchCommand(commandSender, (("minecraft:give "
-						+ ((java.lang.String) commandSender.getName()))
-						+ " diamond_axe{display:{Name:'{\"text\":\"Ban Hammer\",\"color\":\"dark_red\",\"bold\":true}',Lore:['{\"text\":\"HammerType: Ban\"}']},CustomModelData:1000} 1"));
+				org.bukkit.Bukkit.dispatchCommand(commandSender,
+						(("minecraft:give " + ((java.lang.String) commandSender.getName())) + (("" + String.valueOf(
+								((org.bukkit.configuration.ConfigurationSection) (Object) org.bukkit.configuration.file.YamlConfiguration
+										.loadConfiguration(
+												new File(String.valueOf(PluginMain.getInstance().getDataFolder()),
+														"config.yml"))).get("ItemName")))
+								+ "{display:{Name:'{\"text\":\"Ban Hammer\",\"color\":\"dark_red\",\"bold\":true}',Lore:['{\"text\":\"HammerType: Ban\"}']},CustomModelData:1000} 1")));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -176,7 +177,7 @@ public class PluginMain extends JavaPlugin implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void event1(org.bukkit.event.server.TabCompleteEvent event) throws Exception {
-		if (PluginMain.checkEquals(((java.lang.String) event.getBuffer()), "/adminham ")) {
+		if (PluginMain.checkEquals(((java.lang.String) event.getBuffer()), "/adminhammer")) {
 			event.setCompletions(new ArrayList(Arrays.asList("reload", "wiki", "ban", "kick", "help")));
 		}
 	}
@@ -191,12 +192,15 @@ public class PluginMain extends JavaPlugin implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void event3(org.bukkit.event.player.PlayerInteractEvent event) throws Exception {
-		if (PluginMain.checkEquals(((org.bukkit.inventory.ItemStack) event.getItem()), PluginMain.getNamedItemWithLore(
-				((org.bukkit.Material) org.bukkit.Material.valueOf(String.valueOf(
-						((org.bukkit.configuration.ConfigurationSection) (Object) org.bukkit.configuration.file.YamlConfiguration
-								.loadConfiguration(new File(String.valueOf(PluginMain.getInstance().getDataFolder()),
-										"config.yml"))).get("ItemName")))),
-				"\u00A74\u00A7lBan Hammer", new ArrayList(Arrays.asList(("HammerType: " + "Ban")))))) {
+		if (PluginMain.checkEquals(((org.bukkit.inventory.ItemStack) event.getItem()),
+				((java.lang.Object) (Object) ((boolean) ((org.bukkit.inventory.meta.ItemMeta) (Object) PluginMain
+						.getNamedItemWithLore(((org.bukkit.Material) org.bukkit.Material.valueOf(String.valueOf(
+								((org.bukkit.configuration.ConfigurationSection) (Object) org.bukkit.configuration.file.YamlConfiguration
+										.loadConfiguration(
+												new File(String.valueOf(PluginMain.getInstance().getDataFolder()),
+														"config.yml"))).get("ItemName")))),
+								"\u00A74\u00A7lBan Hammer", new ArrayList(Arrays.asList(("HammerType: " + "Ban")))))
+										.hasCustomModelData())))) {
 			if (PluginMain.checkEquals(((org.bukkit.event.block.Action) event.getAction()),
 					((org.bukkit.event.block.Action) org.bukkit.event.block.Action.LEFT_CLICK_AIR))) {
 				((org.bukkit.BanList) org.bukkit.Bukkit
@@ -214,6 +218,13 @@ public class PluginMain extends JavaPlugin implements Listener {
 	public void event4(org.bukkit.event.server.PluginEnableEvent event) throws Exception {
 		((org.bukkit.entity.Player) (Object) PluginMain.createList(org.bukkit.Bukkit.getOnlinePlayers()))
 				.setResourcePack("https://download1499.mediafire.com/jwbw1ijtbagg/zpz0b1nlswwltz6/BanHammer.zip");
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void event5(org.bukkit.event.server.TabCompleteEvent event) throws Exception {
+		if (PluginMain.checkEquals(((java.lang.String) event.getBuffer()), "/adminham")) {
+			event.setCompletions(new ArrayList(Arrays.asList("reload", "wiki", "ban", "kick", "help")));
+		}
 	}
 
 	public static org.bukkit.inventory.ItemStack getNamedItemWithLore(Material material, String name,

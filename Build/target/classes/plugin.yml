@@ -11,7 +11,7 @@ commands:
     permission-message: "You do not have permision to use this command!"
   banhammer:
     description: "Gives you the ban hammer."
-    permission: "hammer.ban"
+    permission: "adminhammers.ban"
     permission-message: "Error"
   adminham:
     aliases: [adminhammer]
