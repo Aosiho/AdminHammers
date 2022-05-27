@@ -1,7 +1,7 @@
 {
   "plugin.dependencies": "",
   "plugin.load-before": "",
-  "plugin.version": "1.0",
+  "plugin.version": "1.0b",
   "debug-build-mode": false,
   "open-tab": 0,
   "plugin-components": [

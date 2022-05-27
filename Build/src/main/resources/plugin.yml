@@ -1,5 +1,5 @@
 name: "AdminHammers"
-version: "1.0"
+version: "1.0b"
 main: "vb.$adminhammers.PluginMain"
 api-version: 1.13
 authors: [Aosiho]
