@@ -1,0 +1,25 @@
+name: "AdminHammers"
+version: "1.0"
+main: "vb.$adminhammers.PluginMain"
+api-version: 1.13
+authors: [Aosiho]
+description: "Adds useful hammers for admins"
+commands:
+  banhammer:
+    description: "Gives you the ban hammer."
+    permission: "hammers.ban"
+    permission-message: "You do not have permision to use this command!"
+  banhammer:
+    description: "Gives you the ban hammer."
+    permission: "hammer.ban"
+    permission-message: "Error"
+  adminham:
+    aliases: [adminhammer]
+    description: "Main AdminHammers command."
+    usage: "/adminham reload, wiki, ban, kick, help"
+  adminhammer:
+    aliases: [adminham]
+    description: "Main AdminHammers command."
+    usage: "/adminhammer reload, wiki, ban, kick, help"
+  testhammer:
+permissions:
