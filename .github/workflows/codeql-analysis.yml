@@ -1,0 +1,21 @@
+- name: Compile Minecraft Spigot or Paper (BuildTools)
+  # You may pin to the exact commit or the version.
+  # uses: SpraxDev/Action-SpigotMC@9081abb382a80baf5ed6dc736591d56088cb1e83
+  uses: SpraxDev/Action-SpigotMC@v4.0.0
+  with:
+    # Versions to build (sperate multiple with ',')
+    versions: # optional, default is latest
+    # Should sources be generated?
+    generateSrc: # optional, default is false
+    # Should use the SpecialSource Plugin of md_5 to deobfuscate Mojang-NMS-Packets
+    remapped: # optional, default is false
+    # Should the documentation be generated?
+    generateDoc: # optional, default is false
+    # Should we disable the BuildTools's Java-Version-Check
+    disableJavaCheck: # optional, default is false
+    # Disables the check for existing files in the local maven repository
+    forceRun: # optional, default is false
+    # The amount of builds allowed to run at a time, set to '-1' to use system's cpu count
+    threads: # optional, default is -1
+    # Whose BuildTool should be used? (SpigotMC [default])
+    buildToolProvider: # optional, default is SpigotMC
